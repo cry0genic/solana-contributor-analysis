@@ -1,7 +1,24 @@
 import json
 import requests
-# import pandas
-# import matplotlib.pyplot as plt
+import pandas
+import matplotlib.pyplot as plt
+
+def bubbleSort(events):
+    for passnum in range(len(events)-1, 0, -1):
+        for i in range(passnum):
+            if ((events[i].event_date)) > ((events[i+1].event_date)):
+                temp = events[i]
+                events[i] = events[i+1]
+                events[i+1] = temp
+    return (events)
+
+contributors = []
+for i in range(13):
+    res = requests.get("https://api.github.com/repos/solana-labs/solana/contributors?page={}".format(i))
+    contributors+=res
+
+with open("response.json", 'w') as f:
+    json.dump(contributors, f)
 
 f = open('response.json')
 
@@ -29,7 +46,7 @@ f.close()
 with open('events.json', 'w') as f:
     json.dump(events, f)
 
-# df = pandas.DataFrame(events)
-# df = df.sort(['event_date'])
+events = bubbleSort(events)
 
-# plt.scatter(df['event_date'], df['event_id'])
+df = pandas.DataFrame(events)
+plt.scatter(df['event_date'], df['event_id'])
