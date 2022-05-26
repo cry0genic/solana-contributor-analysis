@@ -15,6 +15,7 @@ def bubbleSort(events):
 contributors = []
 for i in range(13):
     res = requests.get("https://api.github.com/repos/solana-labs/solana/contributors?page={}".format(i))
+    res = res.json()
     contributors+=res
 
 with open("response.json", 'w') as f:
